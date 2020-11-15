@@ -3,8 +3,8 @@ import React from 'react'
 const UserOutput = () => {
     return (
         <>
-            <p></p>
-            <p></p>
+            <p>Hello there!</p>
+            <p>User output here</p>
         </>
     )
 }
