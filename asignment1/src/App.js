@@ -1,16 +1,24 @@
+import React, { Component } from 'react';
 import './App.css';
 import UserOutput from './UserOutput/UserOutput'
 
-function App() {
-  return (
-    <div className="App">
-      <UserOutput username="Wojti"/>
-      <UserOutput username="Wojt"/>
-      <UserOutput username="Wojtas"/>
-      <UserOutput username="Wojtek"/>
-      <UserOutput username="Wojciech"/>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    username: 'wojti'
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <UserOutput username={this.state.username}/>
+        <UserOutput username={this.state.username}/>
+        <UserOutput username={this.state.username}/>
+        <UserOutput username={this.state.username}/>
+        <UserOutput username={this.state.username}/>
+      </div>
+    );
+  }
 }
 
 export default App;
