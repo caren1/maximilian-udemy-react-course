@@ -1,9 +1,9 @@
 import React from 'react'
 
-const UserInput = ({ usernameChange }) => {
+const UserInput = ({ username, usernameChange }) => {
     return (
         <>
-         <input type="text" onChange={usernameChange} />
+         <input type="text" value={username} onChange={usernameChange} />
         </>
     )
 }
