@@ -1,7 +1,6 @@
 import React from 'react'
 
-const CharComponent = () => {
-
+const CharComponent = ({ char }) => {
 
     const style = {
         display: 'inline-block',
@@ -13,7 +12,7 @@ const CharComponent = () => {
 
     return (
         <div style={style}>
-            
+            {char}
         </div>
     )
 }
