@@ -8,13 +8,22 @@ class App extends Component {
 
   state = {
     inputText: '',
-    // inputTextLength: this.inputText?.length
   } 
 
   handleInputChange = (event) => {
     this.setState({ 
       inputText: event.target.value
      })
+  }
+
+  handleCharRemoval = (index, charArray) => {
+    const newCharArray = [...charArray];
+    // console.log(newCharArray);
+    newCharArray.splice(index, 1);
+    // console.log('deleted', newCharArray);
+
+    const inputText = newCharArray.join('');
+    this.setState({ inputText });
   }
 
   render(){
@@ -25,7 +34,7 @@ class App extends Component {
       inputCharArray = this.state.inputText.split('');
     }
 
-    console.log(inputCharArray);
+    // console.log(inputCharArray);
 
   return (
     <div className="App">
@@ -34,7 +43,7 @@ class App extends Component {
       <ValidationComponent textLength={this.state.inputText.length}/>
       <hr />
       {inputCharArray?.map((char, index) => (
-        <CharComponent key={index} char={char}/>
+        <CharComponent key={index} char={char} remove={() => this.handleCharRemoval(index, inputCharArray)}/>
       ))}
     </div>
   );
