@@ -4,7 +4,8 @@ import './App.css';
 class App extends Component {
 
   state = {
-    inputText: ''
+    inputText: '',
+    inputTextLength: this.inputText.length
   }
 
   handleInputChange = (event) => {
