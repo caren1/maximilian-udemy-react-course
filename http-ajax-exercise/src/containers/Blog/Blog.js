@@ -10,6 +10,7 @@ class Blog extends Component {
     state = {
         posts: [],
         selectedPostId: null,
+        error: false
     }
 
 
@@ -20,6 +21,9 @@ class Blog extends Component {
             const updatedPosts = posts.map(post => ({ ...post, author: 'Max' }))
             this.setState({ posts: updatedPosts })
         })
+        .catch(error => {
+            this.setState({ error: true })
+        })
     }
 
     handlePostClick = (id) => {
@@ -27,12 +31,17 @@ class Blog extends Component {
     }
 
     render () {
+
+        let posts = <p style={{ textAlign: 'center' }}>Something went wrong !</p>
+        if (!this.state.error) {
+            posts = this.state.posts.map((post) => (
+                <Post key={post.id} post={post} clicked={() => this.handlePostClick(post.id)}/>
+            ))
+        }
         return (
             <div>
                 <section className="Posts">
-                    {this.state.posts.map((post) => (
-                        <Post key={post.id} post={post} clicked={() => this.handlePostClick(post.id)}/>
-                    ))}
+                    {posts}
                 </section>
                 <section>
                     <FullPost id={this.state.selectedPostId}/>
