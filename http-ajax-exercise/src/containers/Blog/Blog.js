@@ -9,6 +9,7 @@ import './Blog.css';
 class Blog extends Component {
     state = {
         posts: [],
+        selectedPostId: null,
     }
 
 
@@ -21,16 +22,20 @@ class Blog extends Component {
         })
     }
 
+    handlePostClick = (id) => {
+       this.setState({ selectedPostId: id })
+    }
+
     render () {
         return (
             <div>
                 <section className="Posts">
                     {this.state.posts.map((post) => (
-                        <Post key={post.id} post={post}/>
+                        <Post key={post.id} post={post} clicked={() => this.handlePostClick(post.id)}/>
                     ))}
                 </section>
                 <section>
-                    <FullPost />
+                    <FullPost id={this.state.selectedPostId}/>
                 </section>
                 <section>
                     <NewPost />
