@@ -1,12 +1,5 @@
-.Posts {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    width: 80%;
-    margin: auto;
-}
 
- .Blogs ul {
+.Blogs ul {
      list-style: none;
      margin: 0;
      padding: 0;
