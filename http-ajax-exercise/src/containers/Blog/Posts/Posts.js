@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Post from '../../../components/Post/Post'
-import axios from '../../../axios'
+import Post from '../../../components/Post/Post';
+import axios from '../../../axios';
+import { Link } from 'react-router-dom';
 
 import './Posts.css'
 
@@ -31,7 +32,9 @@ class componentName extends Component {
         let posts = <p style={{ textAlign: 'center' }}>Something went wrong !</p>
         if (!this.state.error) {
             posts = this.state.posts.map((post) => (
-                <Post key={post.id} post={post} clicked={() => this.handlePostClick(post.id)}/>
+                <Link to={`/${post.id}`} key={post.id}>
+                    <Post post={post} clicked={() => this.handlePostClick(post.id)}/>
+                </Link>
             ))
         }
 
