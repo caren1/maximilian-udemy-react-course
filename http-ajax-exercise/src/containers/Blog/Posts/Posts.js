@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Post from '../../../components/Post/Post';
 import axios from '../../../axios';
-import { Link } from 'react-router-dom';
-
+// import { Link } from 'react-router-dom';
+import { Route } from 'react-router-dom'
+import FullPost from '../FullPost/FullPost'
 import './Posts.css'
 
 class componentName extends Component {
@@ -24,7 +25,11 @@ class componentName extends Component {
     }
 
     handlePostClick = (id) => {
-        this.setState({ selectedPostId: id })
+        // this.setState({ selectedPostId: id })
+        // using Link for Post was a viable solution, however with this one, we'll be navigating programatically
+        // since we sometimes want to load something after ie. HTTP request was sent
+        this.props.history.push({ pathname : `/posts/${id}` })
+        // this.props.history.push({ `/${id}` })
      }
 
     render() {
@@ -32,16 +37,20 @@ class componentName extends Component {
         let posts = <p style={{ textAlign: 'center' }}>Something went wrong !</p>
         if (!this.state.error) {
             posts = this.state.posts.map((post) => (
-                <Link to={`/${post.id}`} key={post.id}>
-                    <Post post={post} clicked={() => this.handlePostClick(post.id)}/>
-                </Link>
+                // <Link to={`/posts/${post.id}`} key={post.id}>
+                    <Post key={post.id} post={post} clicked={() => this.handlePostClick(post.id)}/>
+                // </Link>
             ))
         }
 
         return (
-            <section className="Posts">
-                {posts}
-            </section>
+            <div>
+                <section className="Posts">
+                    {posts}
+                </section>
+                <Route path={`${this.props.match.url}/:id`} exact component={FullPost}></Route>
+            </div>
+            
         );
     }
 }
