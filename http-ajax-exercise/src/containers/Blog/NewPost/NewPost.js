@@ -12,11 +12,18 @@ class NewPost extends Component {
         submitted: false
     }
 
+    componentDidMount = () => {
+        console.log(this.props);
+        // you can also check the user authentication here
+        // if unauth => this.props.history.replace('/posts');
+    }
+
     handleDataPost = () => {
         axios.post(`/posts`, {  title : this.state.title, body : this.state.content, author : this.state.author })
         .then((response) => {
             console.log(response);
-            this.setState({ submitted: true })
+            // this.setState({ submitted: true })
+            this.props.history.push('/posts');
         })
     }
 
@@ -29,7 +36,7 @@ class NewPost extends Component {
 
         return (
             <div className="NewPost">
-                {this.state.submitted && <Redirect to="/posts"/>}
+                {/* {this.state.submitted && <Redirect to="/posts"/>} */}
                 {/* {redirect} */}
                 <h1>Add a Post</h1>
                 <label>Title</label>
