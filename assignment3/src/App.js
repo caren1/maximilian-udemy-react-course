@@ -4,6 +4,7 @@ import './App.css'
 
 import Courses from './containers/Courses/Courses';
 import Users from './containers/Users/Users';
+import Course from './containers/Course/Course'
 
 class App extends Component {
   render () {
@@ -35,6 +36,7 @@ class App extends Component {
           <Route exact path='/courses' component={Courses}><Courses/></Route>
           {/* <Route path='/users'><Users/></Route> */}
           <Route exact path='/users' component={Users}><Users/></Route>
+          <Route exact path='/courses/:id' component={Course}><Course/></Route>
         </Switch>
       </div>    
     );
