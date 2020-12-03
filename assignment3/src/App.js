@@ -4,7 +4,7 @@ import './App.css'
 
 import Courses from './containers/Courses/Courses';
 import Users from './containers/Users/Users';
-import Course from './containers/Course/Course'
+import NoMatch from './components/NoMatch'
 
 class App extends Component {
   render () {
@@ -39,7 +39,7 @@ class App extends Component {
           {/* using query params */}
           {/* <Route  path='/courses/:id' component={Course}></Route> */}
           <Route path='/courses' component={Courses}></Route>
-          <Route render={() => <h1>Something went wrong!</h1>}></Route>
+          <Route component={NoMatch}></Route>
         </Switch>
       </div>    
     );
