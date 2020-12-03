@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, NavLink } from 'react-router-dom';
+import { Switch, Route, NavLink, Redirect } from 'react-router-dom';
 import './App.css'
 
 import Courses from './containers/Courses/Courses';
@@ -39,6 +39,7 @@ class App extends Component {
           {/* using query params */}
           {/* <Route  path='/courses/:id' component={Course}></Route> */}
           <Route path='/courses' component={Courses}></Route>
+          <Redirect from='/all-courses' to='/courses'></Redirect>
           <Route component={NoMatch}></Route>
         </Switch>
       </div>    
