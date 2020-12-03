@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
+import Course from '../Course/Course'
 
 import './Courses.css';
 
@@ -12,18 +13,45 @@ class Courses extends Component {
         ]
     }
 
+    handleCourseClick = (id) => {
+        this.props.history.push({ pathname : `/courses/${id}` })
+    }
+
     render () {
+
+
+        // let courses =  
+        //     this.state.courses.map(course => {
+        //         return (<Link key={course.id} to={`${this.props.match.url}/${course.id}/${course.title}`}>
+        //             <article className="Course" >{course.title}</article>
+        //         </Link>)
+        //     })
+
+        // solution for query params
+            let courses =  
+            this.state.courses.map(course => {
+                return (
+                <Link
+                 key={course.id}
+                 to={{
+                     pathname: `${this.props.match.url}/${course.id}`,
+                     search: `?title=${course.title}`
+                 }}>
+                    <article className="Course">
+                        {course.title}
+                    </article>
+                </Link>)
+            })
+        
+
         return (
             <div>
                 <h1>Amazing Udemy Courses</h1>
                 <section className="Courses">
-                    {
-                        this.state.courses.map( course => {
-                            return <Link key={course.id} 
-                            to={ `/courses/${course.id}#${course.title}`}><article className="Course" >{course.title}</article></Link>;
-                        } )
-                    }
+                   {courses}
                 </section>
+                <Route path={`${this.props.match.url}/:id`} component={Course}></Route>
+                {/* {console.log(this.props.match.url)} */}
             </div>
         );
     }

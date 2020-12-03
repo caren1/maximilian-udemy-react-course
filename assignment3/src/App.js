@@ -32,11 +32,14 @@ class App extends Component {
         </ol>
 
         <Switch>
-          {/* <Route path='/courses'><Courses/></Route> */}
-          <Route exact path='/courses' component={Courses}><Courses/></Route>
           {/* <Route path='/users'><Users/></Route> */}
-          <Route exact path='/users' component={Users}><Users/></Route>
-          <Route  path='/courses/:id' component={Course}><Course/></Route>
+          <Route path='/users' component={Users}></Route>
+          {/* <Route path='/courses'><Courses/></Route> */}
+          {/* <Route  path='/courses/:id/:title' component={Course}></Route> */}
+          {/* using query params */}
+          {/* <Route  path='/courses/:id' component={Course}></Route> */}
+          <Route path='/courses' component={Courses}></Route>
+          <Route render={() => <h1>Something went wrong!</h1>}></Route>
         </Switch>
       </div>    
     );
