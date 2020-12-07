@@ -41,6 +41,16 @@ const rootReducer = (state = initialState, action) => {
 const store = createStore(rootReducer);
 console.log(store.getState());
 
+// SUBSCRIPTION
+    // make sure that we dont have to manually call getState
+    // it takes an argument: function that will be executed whenever the state is updated
+    // usually stored just after the store was created, so we get informed about any further dispatches
+    // function will be executed whenever an action is dispatched and mutates the store
+
+store.subscribe(() => {
+    console.log('[Subscription]', store.getState());
+})
+
 // DISPATCHING ACTION
     // an action is dispatched by accessing the store and using on it dispatch method
     // it is a function that takes a JS object as a parameter, that should define 'type' property
@@ -50,5 +60,3 @@ console.log(store.getState());
 store.dispatch({ type: 'INC_COUNTER' });
 store.dispatch({ type: 'ADD_COUNTER', value: 10 });
 console.log(store.getState());
-
-// SUBSCRIPTION
