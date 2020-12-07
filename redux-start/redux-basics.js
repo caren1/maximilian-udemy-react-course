@@ -9,7 +9,7 @@ const initialState = {
 // allows to create new redux store instance
 const createStore = redux.createStore;
 
-// Reducer 
+// REDUCER 
     // strongly related to the store, since it takes it the only thing that might update the state in the end
     // might there be multiple reducers, but they will be converted to one anyway
     // must be created / initialized before the store
@@ -17,14 +17,38 @@ const createStore = redux.createStore;
     // must return ONE THING - UPDATED STATE
 const rootReducer = (state = initialState, action) => {
     // whenever state is undefined it will take initial state as a default
-    return state;
+    // NEVER MUTATE ANY DATA, IT HAS TO BE DONE IN IMMUTABLE WAY
+    switch (action.type){
+        case 'INC_COUNTER':
+            return {
+                ...state,
+                counter: state.counter + 1
+            }
+        case 'ADD_COUNTER':
+            return {
+                ...state,
+                // refering to the property name send via payload
+                counter: state.counter + action.value
+            }
+        default:
+            return state;
+    }
+    // return state;
 }
  
-// Store
+// STORE   
     // it needs to be initialized with reducer
 const store = createStore(rootReducer);
 console.log(store.getState());
 
-// Dispatching Action
+// DISPATCHING ACTION
+    // an action is dispatched by accessing the store and using on it dispatch method
+    // it is a function that takes a JS object as a parameter, that should define 'type' property
+    // it is important, in getting what type of action was dispatched and what should we do about it in the reducer
+    // ALL UPPPERCASE STRING FOR ACTION - ie. INC_COUNTER
+    // + optional payload
+store.dispatch({ type: 'INC_COUNTER' });
+store.dispatch({ type: 'ADD_COUNTER', value: 10 });
+console.log(store.getState());
 
-// Subscription
+// SUBSCRIPTION
