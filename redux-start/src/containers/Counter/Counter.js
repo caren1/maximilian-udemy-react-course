@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as actionTypes from '../../store/actions'
 
 // it is a function that returns Higher Order Component and needs to be wrapped our component export
 import { connect } from 'react-redux';
@@ -46,12 +47,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     // it will call store.dispatch behind the scenes
     return {
-        onIncrementCounter: () => dispatch({ type: 'INCREMENT' }),
-        onDecrementCounter: () => dispatch({ type: 'DECREMENT' }),
-        onAddCounter: (number) => dispatch({ type: 'ADD', value: number }),
-        onSubtractCounter: (number) => dispatch({ type: 'SUBTRACT', value: number }),
-        onStoreResult: () => dispatch({ type: 'STORE_RESULT' }),
-        onDeleteResult: (id) => dispatch({ type: 'DELETE_RESULT', id }),
+        onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT }),
+        onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT }),
+        onAddCounter: (number) => dispatch({ type: actionTypes.ADD, value: number }),
+        onSubtractCounter: (number) => dispatch({ type: actionTypes.SUBTRACT, value: number }),
+        onStoreResult: () => dispatch({ type: actionTypes.STORE_RESULT }),
+        onDeleteResult: (id) => dispatch({ type: actionTypes.DELETE_RESULT, id }),
     }
 };
 
