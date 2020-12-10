@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import * as actionCreators from "../../store/actions/actions";
+import * as actionCreators from "../../store/actions/index";
 
 // it is a function that returns Higher Order Component and needs to be wrapped our component export
 import { connect } from "react-redux";
