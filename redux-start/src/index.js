@@ -5,7 +5,7 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
 // we typically initialize the store in the main file of our application
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 
 // while reducer is being set up in the separate file as it contains a lot of logic in more complex apps
 // import reducer from "./store/reducer";
@@ -23,7 +23,18 @@ const reducer = combineReducers({
   res: resultReducer
 });
 
-const store = createStore(reducer);
+const logger = (store) => {
+  return (next) => {
+    return (action) => {
+      console.log('[Middleware] Dispatching', action);
+      const result = next(action);
+      console.log('[Middleware] next state', store.getState());
+      return result;
+    }
+  }
+}
+
+const store = createStore(reducer, applyMiddleware(logger));
 
 ReactDOM.render(
   <Provider store={store}>
