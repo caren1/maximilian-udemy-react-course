@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import * as actionTypes from "../../store/actions";
+
+import * as actionCreators from "../../store/actions/actions";
 
 // it is a function that returns Higher Order Component and needs to be wrapped our component export
 import { connect } from "react-redux";
@@ -29,7 +30,9 @@ class Counter extends Component {
           clicked={() => this.props.onSubtractCounter(5)}
         />
         <hr />
-        <button onClick={() => this.props.onStoreResult(this.props.ctr)}>Store Result</button>
+        <button onClick={() => this.props.onStoreResult(this.props.ctr)}>
+          Store Result
+        </button>
         <ul>
           {this.props.storedResults.map((result) => (
             <li
@@ -63,14 +66,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   // it will call store.dispatch behind the scenes
   return {
-    onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT }),
-    onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT }),
-    onAddCounter: (number) =>
-      dispatch({ type: actionTypes.ADD, value: number }),
-    onSubtractCounter: (number) =>
-      dispatch({ type: actionTypes.SUBTRACT, value: number }),
-    onStoreResult: (result) => dispatch({ type: actionTypes.STORE_RESULT, result }),
-    onDeleteResult: (id) => dispatch({ type: actionTypes.DELETE_RESULT, id }),
+    onIncrementCounter: () => dispatch(actionCreators.increment()),
+    onDecrementCounter: () => dispatch(actionCreators.decrement()),
+    onAddCounter: (number) => dispatch(actionCreators.add(number)),
+    onSubtractCounter: (number) => dispatch(actionCreators.subtract(number)),
+    onStoreResult: (result) => dispatch(actionCreators.storeResult(result)),
+    onDeleteResult: (id) => dispatch(actionCreators.deleteResult(id)),
   };
 };
 
