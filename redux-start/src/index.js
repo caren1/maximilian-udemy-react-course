@@ -5,7 +5,7 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
 // we typically initialize the store in the main file of our application
-import { createStore, combineReducers, applyMiddleware } from "redux";
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 
 // while reducer is being set up in the separate file as it contains a lot of logic in more complex apps
 // import reducer from "./store/reducer";
@@ -17,6 +17,7 @@ import resultReducer from './store/reducers/result'
 // it allows to kind of inject our store into the react components
 // for hooking it up, we set up a property 'store', with it the store is connected
 import { Provider } from "react-redux";
+
 
 const reducer = combineReducers({
   ctr: counterReducer,
@@ -34,7 +35,8 @@ const logger = (store) => {
   }
 }
 
-const store = createStore(reducer, applyMiddleware(logger));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(logger)));
 
 ReactDOM.render(
   <Provider store={store}>
