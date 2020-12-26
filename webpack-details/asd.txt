@@ -1,0 +1,6 @@
+Basic workflow requirements
+Compile Next-Gen JS Features
+Handle JSX
+CSS AUtoprefixing
+Support Image Imports
+Optimize Code
