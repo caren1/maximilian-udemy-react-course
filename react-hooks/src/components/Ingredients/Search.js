@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import Card from "../UI/Card";
 import "./Search.css";
@@ -6,22 +6,34 @@ import "./Search.css";
 const Search = React.memo((props) => {
   const [filter, setFilter] = useState("");
   const { onLoadIngredients } = props;
+  const inputRef = useRef();
 
   useEffect(() => {
-    const query = filter.length === 0 ? '' : `?orderBy="title"&equalTo="${filter}"`
-    fetch(
-      "https://react-hooks-b227a-default-rtdb.firebaseio.com/ingredients.json" + query
-    ).then((response) => {
-      return response.json()
-    })
-    .then(responseData => {
-      const loadedIngredients = []
-      for (let key in responseData) {
-        loadedIngredients.push({ id:key, title: responseData[key].title, amount: responseData[key].amount })
+    setTimeout(() => {
+      if (filter === inputRef.current.value) {
+        const query =
+          filter.length === 0 ? "" : `?orderBy="title"&equalTo="${filter}"`;
+        fetch(
+          "https://react-hooks-b227a-default-rtdb.firebaseio.com/ingredients.json" +
+            query
+        )
+          .then((response) => {
+            return response.json();
+          })
+          .then((responseData) => {
+            const loadedIngredients = [];
+            for (let key in responseData) {
+              loadedIngredients.push({
+                id: key,
+                title: responseData[key].title,
+                amount: responseData[key].amount,
+              });
+            }
+            onLoadIngredients(loadedIngredients);
+          });
       }
-      onLoadIngredients(loadedIngredients)
-    })
-  }, [filter, onLoadIngredients])
+    }, 500);
+  }, [filter, onLoadIngredients, inputRef]);
 
   return (
     <section className="search">
@@ -29,6 +41,7 @@ const Search = React.memo((props) => {
         <div className="search-input">
           <label>Filter by Title</label>
           <input
+            ref={inputRef}
             type="text"
             value={filter}
             onChange={(event) => setFilter(event.target.value)}
