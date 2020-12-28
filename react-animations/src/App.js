@@ -24,15 +24,15 @@ class App extends Component {
     return (
       <div className="App">
         <h1>React Animations</h1>
-        <button
+        {/* <button
           className="Button"
           onClick={() => this.setState({ showBlock: !this.state.showBlock })}
         >
           Toggle
         </button>
-        <br />
+        <br /> */}
 
-        <Transition
+        {/* <Transition
           in={this.state.showBlock}
           timeout={300}
           mountOnEnter
@@ -50,12 +50,19 @@ class App extends Component {
               }}
             ></div>
           )}
-        </Transition>
+        </Transition> */}
 
-        {this.state.modalIsOpen && (
-          <Modal show={this.state.modalIsOpen} closed={this.closeModal} />
-        )}
-        {this.state.modalIsOpen && <Backdrop show={this.state.modalIsOpen} />}
+        {/* <Transition
+          in={this.state.modalIsOpen}
+          timeout={300}
+          mountOnEnter
+          unmountOnExit
+        >
+          {(state) => <Modal show={state} closed={this.closeModal} />}
+        </Transition> */}
+
+        <Modal show={this.state.modalIsOpen} closed={this.closeModal} />
+        {this.state.modalIsOpen && <Backdrop show />}
         <button className="Button" onClick={this.showModal}>
           Open Modal
         </button>
