@@ -8,17 +8,38 @@ const Ingredients = () => {
   const [ingredients, setIngredients] = useState([]);
 
   const addIngredient = (ingredient) => {
-    const newIngredients = ingredients.concat({ id: Math.random().toString(), ...ingredient});
-    setIngredients(newIngredients);
+
+    fetch('https://react-hooks-b227a-default-rtdb.firebaseio.com/ingredients.json', {
+      method: 'POST',
+      body: JSON.stringify(ingredient),
+      headers: { 'Content-Type':'application/json' }
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(responseData => {
+      const newIngredients = ingredients.concat({
+        id: responseData.name,
+        ...ingredient,
+      });
+      setIngredients(newIngredients);
+    })
+  };
+
+  const removeIngredient = (id) => {
+    const updatedIngredients = ingredients.filter(
+      (ingredient) => ingredient.id !== id
+    );
+    setIngredients(updatedIngredients);
   };
 
   return (
     <div className="App">
-      <IngredientForm onAddIngredient={addIngredient}/>
+      <IngredientForm onAddIngredient={addIngredient} />
 
       <section>
         <Search />
-        <IngredientList ingredients={ingredients} onRemoveItem={() => {}}/>
+        <IngredientList ingredients={ingredients} onRemoveItem={removeIngredient} />
       </section>
     </div>
   );
