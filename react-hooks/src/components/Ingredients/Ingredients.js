@@ -29,10 +29,22 @@ const Ingredients = () => {
   };
 
   const removeIngredient = (id) => {
-    const updatedIngredients = ingredients.filter(
-      (ingredient) => ingredient.id !== id
-    );
-    setIngredients(updatedIngredients);
+    fetch(
+      `https://react-hooks-b227a-default-rtdb.firebaseio.com/ingredients/${id}.json`,
+      {
+        method: "DELETE",
+      }
+    )
+    .then(response => {
+      const updatedIngredients = ingredients.filter(
+        (ingredient) => ingredient.id !== id
+      );
+      setIngredients(updatedIngredients);
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    
   };
 
   const filteredIngredients = useCallback((filteredIngredients) => {
