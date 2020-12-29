@@ -23,14 +23,39 @@ const ingredientReducer = (currentIngredients, action) => {
   }
 };
 
+const httpReducer = (httpState, action) => {
+  switch (action.type) {
+    case "SEND":
+      return { ...httpState, loading: true };
+
+    case "RESPONSE":
+      return { ...httpState, loading: false };
+
+    case "ERROR":
+      return { loading: false, error: action.error };
+
+    case "CLEAR":
+      return { ...httpState, error: null };
+
+    default:
+      throw new Error("Should not reach here");
+  }
+};
+
 const Ingredients = () => {
   const [ingredients, dispatch] = useReducer(ingredientReducer, []);
   // const [ingredients, setIngredients] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+
+  const [httpState, dispatchHttp] = useReducer(httpReducer, {
+    loading: false,
+    error: null,
+  });
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState();
 
   const addIngredient = (ingredient) => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    dispatchHttp({ type: "SEND" });
     fetch(
       "https://react-hooks-b227a-default-rtdb.firebaseio.com/ingredients.json",
       {
@@ -40,7 +65,8 @@ const Ingredients = () => {
       }
     )
       .then((response) => {
-        setIsLoading(false);
+        // setIsLoading(false);
+        dispatchHttp({ type: "RESPONSE" });
         return response.json();
       })
       .then((responseData) => {
@@ -57,7 +83,9 @@ const Ingredients = () => {
   };
 
   const removeIngredient = (id) => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    dispatchHttp({ type: "SEND" });
+
     fetch(
       `https://react-hooks-b227a-default-rtdb.firebaseio.com/ingredients/${id}.json`,
       {
@@ -65,7 +93,9 @@ const Ingredients = () => {
       }
     )
       .then((response) => {
-        setIsLoading(false);
+        // setIsLoading(false);
+        dispatchHttp({ type: "RESPONSE" });
+
         // const updatedIngredients = ingredients.filter(
         //   (ingredient) => ingredient.id !== id
         // );
@@ -73,8 +103,9 @@ const Ingredients = () => {
         dispatch({ type: "DELETE", id });
       })
       .catch((error) => {
-        setError("Something went wrong", error.message);
-        setIsLoading(false);
+        // setError("Something went wrong", error.message);
+        // setIsLoading(false);
+        dispatchHttp({ type: "ERROR", error: error.message });
       });
   };
 
@@ -85,8 +116,15 @@ const Ingredients = () => {
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={() => setError(null)}>{error}</ErrorModal>}
-      <IngredientForm onAddIngredient={addIngredient} loading={isLoading} />
+      {httpState.error && (
+        <ErrorModal onClose={() => dispatchHttp({ type: "CLEAR" })}>
+          {httpState.error}
+        </ErrorModal>
+      )}
+      <IngredientForm
+        onAddIngredient={addIngredient}
+        loading={httpState.loading}
+      />
 
       <section>
         <Search onLoadIngredients={filteredIngredients} />
