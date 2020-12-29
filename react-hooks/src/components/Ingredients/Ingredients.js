@@ -3,11 +3,15 @@ import React, { useState, useCallback } from "react";
 import IngredientForm from "./IngredientForm";
 import IngredientList from "./IngredientList";
 import Search from "./Search";
+import ErrorModal from "../UI/ErrorModal";
 
 const Ingredients = () => {
   const [ingredients, setIngredients] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
   const addIngredient = (ingredient) => {
+    setIsLoading(true);
     fetch(
       "https://react-hooks-b227a-default-rtdb.firebaseio.com/ingredients.json",
       {
@@ -17,6 +21,7 @@ const Ingredients = () => {
       }
     )
       .then((response) => {
+        setIsLoading(false);
         return response.json();
       })
       .then((responseData) => {
@@ -29,22 +34,24 @@ const Ingredients = () => {
   };
 
   const removeIngredient = (id) => {
+    setIsLoading(true);
     fetch(
       `https://react-hooks-b227a-default-rtdb.firebaseio.com/ingredients/${id}.json`,
       {
         method: "DELETE",
       }
     )
-    .then(response => {
-      const updatedIngredients = ingredients.filter(
-        (ingredient) => ingredient.id !== id
-      );
-      setIngredients(updatedIngredients);
-    })
-    .catch(error => {
-      console.log(error);
-    })
-    
+      .then((response) => {
+        setIsLoading(false);
+        const updatedIngredients = ingredients.filter(
+          (ingredient) => ingredient.id !== id
+        );
+        setIngredients(updatedIngredients);
+      })
+      .catch((error) => {
+        setError("Something went wrong", error.message);
+        setIsLoading(false);
+      });
   };
 
   const filteredIngredients = useCallback((filteredIngredients) => {
@@ -53,7 +60,8 @@ const Ingredients = () => {
 
   return (
     <div className="App">
-      <IngredientForm onAddIngredient={addIngredient} />
+      {error && <ErrorModal onClose={() => setError(null)}>{error}</ErrorModal>}
+      <IngredientForm onAddIngredient={addIngredient} loading={isLoading} />
 
       <section>
         <Search onLoadIngredients={filteredIngredients} />
