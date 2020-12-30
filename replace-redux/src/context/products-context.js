@@ -27,7 +27,10 @@ const initialState = [
   },
 ];
 
-export const ProductsContext = React.createContext({ products: [] });
+export const ProductsContext = React.createContext({
+  products: [],
+  toggleFav: (id) => {},
+});
 
 // 1 - we created a folder containing context component
 // 2 - we want to export the above context
@@ -36,13 +39,30 @@ export const ProductsContext = React.createContext({ products: [] });
 // 5 - then we'll use it in index.js where we previously been using redux and wrap the app with the component
 // 6 - by doing that we'll be having an access to conext anywhere in the child components of the 'App'
 // 7 - we use the conext by importing 'ProductsContext' from the context folder in the place we want to use it together with useContext from react
-
+// 8 - to be able to mark the product to favorite we are adding a function
+// 9 - we also add it to our ProductsContext in order to be able to use it and also to value of provider so that it is stored in context value, and anywhere we use the context we can use it there
+//      -> emiting the changed value in every place
 
 export default (props) => {
   const [productsList, setProductsList] = useState(initialState);
 
+  const toggleFavorite = (productId) => {
+    setProductsList((currentProdList) => {
+      const prodIndex = currentProdList.findIndex((p) => p.id === productId);
+      const newFavStatus = !currentProdList[prodIndex].isFavorite;
+      const updatedProducts = [...currentProdList];
+      updatedProducts[prodIndex] = {
+        ...currentProdList[prodIndex],
+        isFavorite: newFavStatus,
+      };
+      return updatedProducts;
+    });
+  };
+
   return (
-    <ProductsContext.Provider value={{ products: productsList }}>
+    <ProductsContext.Provider
+      value={{ products: productsList, toggleFav: toggleFavorite }}
+    >
       {props.children}
     </ProductsContext.Provider>
   );
